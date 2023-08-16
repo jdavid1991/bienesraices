@@ -1,13 +1,13 @@
 <?php
 
-require '../../includes/funciones.php';
+require '../../includes/app.php';
+
+use App\propiedad;
+
 $auth = estaAutenticado();
 
-if(!$auth){
-    header('Location: /');
-}
+estaAutenticado();
 
-require '../../includes/config/database.php';
 $db = conectarDB();
 
 //Consultar para obtener los vendedores
@@ -27,6 +27,12 @@ $vendedores_id = '';
 
 //Ejecutar el codigo despues de que el usuario envia el formulario
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+  $propiedad = new propiedad($_POST);
+
+  $propiedad->guardar();
+
+  debuguear($propiedad);
 
     // echo "<pre>";
     // var_dump($_POST);
@@ -100,8 +106,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         //Subir la Imagen
         move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen );
 
-        //Insertar en la base de datos
-        $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id ) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedores_id' ) ";
+        
     
         $resultado = mysqli_query($db, $query);
             if($resultado){
@@ -161,7 +166,7 @@ incluirTemplate('header');
         <fieldset>
             <legend>Vendedor</legend>
 
-            <select name="vendedor">
+            <select name="vendedores_id">
                 <option value="">--Seleccione--</option>
                 <?php while($vendedor = mysqli_fetch_assoc($resultado)) : ?>
                     <option <?php echo $vendedores_id === $vendedor['id'] ? 'selected' : ''; ?> value="<?php echo $vendedor['id']; ?>"> <?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?> </option>

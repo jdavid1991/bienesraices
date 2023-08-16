@@ -8,7 +8,7 @@ if(!$id){
 }
 
 //Importar la base de datos
-require "includes/config/database.php";
+require 'includes/app.php';
 $db = conectarDB();
 
 //Consultar la base de datos
@@ -23,7 +23,6 @@ if(!$resultado -> num_rows){
 
 $propiedad = mysqli_fetch_assoc($resultado);
 
-require 'includes/funciones.php';
 incluirTemplate('header');
 ?>
         
