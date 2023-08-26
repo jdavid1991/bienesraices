@@ -2,11 +2,7 @@
   <legend>Informacion General</legend>
 
   <label for="titulo">Titulo</label>
-  <input type="text" id="titulo" name="propiedad[titulo]" placeholder="Titulo Propiedad" value="<?php
-
-use App\propiedad;
-
- echo s($propiedad->titulo); ?>">
+  <input type="text" id="titulo" name="propiedad[titulo]" placeholder="Titulo Propiedad" value="<?php echo s($propiedad->titulo); ?>">
 
   <label for="precio">Precio</label>
   <input type="number" name="propiedad[precio]" id="precio" placeholder="Precio Propiedad" value="<?php echo s($propiedad->precio); ?>">

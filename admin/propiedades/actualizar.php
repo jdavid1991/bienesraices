@@ -1,6 +1,7 @@
 <?php
 
 use App\propiedad;
+use App\Vendedor;
 use Intervention\Image\ImageManagerStatic as Image;
 
 require '../../includes/app.php';
@@ -18,10 +19,8 @@ if (!$id) {
 //Obtener los datos de la propiedad
 $propiedad = propiedad::find($id);
 
-
-//Consultar para obtener los vendedores
-$consulta = "SELECT * FROM vendedores";
-$resultado = mysqli_query($db, $consulta);
+//COnsulta para obtener todos los vendedores
+$vendedores = Vendedor::all();
 
 //Arreglo con mensajes de errores
 $errores = propiedad::getErrores();
@@ -49,15 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
   //Revisar que el array de errores este vacio
   if (empty($errores)) {
+    if ($_FILES['propiedad']['tmp_name']['imagen']) {
     //Almacenar la imagen
-
-    $image->save(CARPETAS_IMAGENES . $nombreImagen);
+      $image->save(CARPETAS_IMAGENES . $nombreImagen);
+    }
 
     $propiedad->guardar();
-   
   }
 }
 incluirTemplate('header');
+
 ?>
 
 <main class="contenedor seccion">
@@ -78,5 +78,5 @@ incluirTemplate('header');
 </main>
 
 <?php
-incluirTemplate('footer');
+  incluirTemplate('footer');
 ?>
