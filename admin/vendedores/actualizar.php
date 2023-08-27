@@ -2,15 +2,38 @@
 
 require '../../includes/app.php';
 use App\Vendedor;
-
 estaAutenticado();
 
-$vendedor = new Vendedor;
+// Validar que sea un ID valido
+
+$id = $_GET['id'];
+$id = filter_var($id, FILTER_VALIDATE_INT);
+
+
+if(!$id){
+  header('Location: /admin');
+}
+
+// Obtener el arregho del vendedor
+$vendedor = Vendedor::find($id);
 
 //Arreglo con mensajes de errores
 $errores = Vendedor::getErrores();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+  
+  // Asignar los valores
+  $args = $_POST['vendedor'];
+
+  // Sincronizar objeto en memoria con lo que el usuario escribo
+  $vendedor->sincronizar($args);
+
+  // Validacion
+  $errores = $vendedor->validar();
+
+  if(empty($errores)){
+    $vendedor->guardar();
+  }
 
 }
 
@@ -28,7 +51,7 @@ incluirTemplate('header');
     </div>
   <?php endforeach; ?>
 
-  <form class="formulario" method="POST" action="/admin/vendedores/actualizar.php">
+  <form class="formulario" method="POST">
     <?php include '../../includes/templates/formulario_vendedores.php' ?>
 
     <input type="submit" value="Guardar Cambios" class="boton boton-verde">

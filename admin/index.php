@@ -3,6 +3,7 @@
 require '../includes/app.php';
 estaAutenticado();
 
+// Importar Clases
 use App\propiedad;
 use App\Vendedor;
 
@@ -15,23 +16,22 @@ $resultado = $_GET['resultado'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+  // Validar ID
   $id = $_POST['id'];
   $id = filter_var($id, FILTER_VALIDATE_INT);
 
   if ($id) {
-
     $tipo = $_POST['tipo'];
-    if(validarTipoContenido($tipo)){
+    if (validarTipoContenido($tipo)) {
       //compara lo que vamos a eliminar
-      if($tipo === 'vendedor'){
+      if ($tipo === 'vendedor') {
         $vendedor = Vendedor::find($id);
         $vendedor->eliminar();
-      }elseif($tipo === 'propiedad'){
+      } elseif ($tipo === 'propiedad') {
         $propiedad = propiedad::find($id);
         $propiedad->eliminar();
       }
     }
-   
   }
 }
 
@@ -40,16 +40,15 @@ incluirTemplate('header');
 
 <main class="contenedor seccion">
   <h1>Administrador de Bienes Raices</h1>
-  <?php if (intval($resultado) === 1) : ?>
-    <p class="alerta exito">Anuncio Creado Correctamente</p>
-  <?php elseif (intval($resultado) === 2) : ?>
-    <p class="alerta exito">Anuncio Actualizado Correctamente</p>
-  <?php elseif (intval($resultado) === 3) : ?>
-    <p class="alerta exito">Anuncio Eliminado Correctamente</p>
-  <?php endif; ?>
+  
+  <?php 
+    $mensaje = mostrarNotificacion( intval($resultado) ); 
+    if($mensaje){ ?>
+      <p class="alerta existo"><?php echo s($mensaje)?></p>
+    <?php } ?>
 
   <a href="/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
-  <a href="/admin/vendedores/crear.php" class="boton boton-amarillo">Nuevo Vendedor</a>
+  <a href="/admin/vendedores/crear.php" class="boton boton-amarillo">Nuevo(a) Vendedor</a>
 
   <h2>Propiedades</h2>
   <table class="propiedades">
@@ -117,5 +116,5 @@ incluirTemplate('header');
 </main>
 
 <?php
-  incluirTemplate('footer');
+incluirTemplate('footer');
 ?>

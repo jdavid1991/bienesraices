@@ -1,6 +1,7 @@
 <?php
 
 require '../../includes/app.php';
+
 use App\Vendedor;
 
 estaAutenticado();
@@ -11,7 +12,16 @@ $vendedor = new Vendedor;
 $errores = Vendedor::getErrores();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  //Crear nuna nueva instancia
+  $vendedor = new Vendedor($_POST['vendedor']);
 
+  //validar que no hayan campos vacios
+  $errores = $vendedor->validar();
+
+  // No hay errores
+  if(empty($errores)){
+    $vendedor->guardar();
+  }
 }
 
 incluirTemplate('header');
@@ -34,4 +44,3 @@ incluirTemplate('header');
     <input type="submit" value="Registrar Vendedor(a)" class="boton boton-verde">
   </form>
 </main>
-
