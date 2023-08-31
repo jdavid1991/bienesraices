@@ -19,7 +19,6 @@ $errores = propiedad::getErrores();
 //Ejecutar el codigo despues de que el usuario envia el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-
   /**Crea una nueva instancia */
   $propiedad = new propiedad($_POST['propiedad']);
 
@@ -62,6 +61,7 @@ incluirTemplate('header');
 
 <main class="contenedor seccion">
   <h1>Crear</h1>
+  
   <a href="/admin/" class="boton boton-verde">Volver</a>
 
   <?php foreach ($errores as $error) : ?>
