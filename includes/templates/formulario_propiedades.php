@@ -38,7 +38,7 @@
 
   <label for="vendedor">Vendedor</label>
   <select name="propiedad[vendedores_id]" id="vendedor">
-    <option selected value="">-- Seleccionee --</option>
+    <option selected value="">-- Seleccione --</option>
     <?php foreach($vendedores as $vendedor) { ?>
       <option 
       <?php echo $propiedad->vendedores_id === $vendedor->id ? 'selected' : ''; ?>
