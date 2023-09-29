@@ -45,7 +45,5 @@
       value="<?php echo s($vendedor->id); ?>" ><?php echo s($vendedor->nombre) . " " . s($vendedor->apellido)?></option>
     <?php } ?>
   </select>
-
-  <h1>Putos</h1>
   
 </fieldset>
